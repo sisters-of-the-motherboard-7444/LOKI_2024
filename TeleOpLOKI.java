@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TeleOpLOKI extends LinearOpMode {
   DcMotorEx motor, slidesLeft, slidesRight;
+  public Servo clawServo, wristServo, armLeft, armRight;
 
   PIDSlides leftPID = new PIDSlides(0.25, 0, 0);
   PIDSlides rightPID - new PIDSlides(0.25, 0, 0);
@@ -38,7 +39,18 @@ public class TeleOpLOKI extends LinearOpMode {
     int HANG_POSITION = 0;
 
     while (opModeIsActive()) {
-      if (gamepad1.x){ targetPosition = GROUND_POSITION; }
+      
+      if (gamepad1.right_bumper) { // open
+        clawServo.setPosition(1); } 
+      else if (gamepad1.left_bumper) { // closed
+        clawServo.setPosition(1); }
+        
+      if (gamepad1.x) { 
+        targetPosition = GROUND_POSITION;
+        clawServo.setPosition(1);
+        wristServo.setPosition(1);
+        armLeft.setPosition(1);
+        armRight.setPosition(1); }
 
       telemetry.addData("Left Slides", slidesLeft.getCurrentPosition());
       telemetry.addData("Right Slides", slidesRight.getCurrentPosition());
